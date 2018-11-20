@@ -8,6 +8,8 @@ ADMIN_USER=$4
 MASTER_DOMAIN=$5
 ROUTER_DOMAIN=$6
 MASTER_FQDN=$7
+RHN_USER=$8
+RHN_PASSWORD=$9
 
 cd terraform-azure-openshift
 
@@ -18,19 +20,24 @@ sed -i "s/###NODE_COUNT###/$NODE_COUNT/g" ansible/inventory/hosts
 sed -i "s/###MASTER_COUNT###/$MASTER_COUNT/g" ansible/inventory/hosts
 sed -i "s/###INFRA_COUNT###/$INFRA_COUNT/g" ansible/inventory/hosts
 sed -i "s/###ADMIN_USER###/$ADMIN_USER/g" ansible/inventory/hosts
+sed -i "s/###RHN_USER###/$RHN_USER/g" ansible/inventory/hosts
+sed -i "s/###RHN_PASSWORD###/$RHN_PASSWORD/g" ansible/inventory/hosts 
+
+
 
 cd ansible
 ansible-playbook -i inventory/hosts host-preparation.yml
 cd ../..
 
-if [ ! -d "openshift-ansible" ]; then
-    echo "Cloning openshift-ansible Github repo..."
-    git clone https://github.com/openshift/openshift-ansible
-fi
-
+#if [ ! -d "openshift-ansible" ]; then
+#    echo "Cloning openshift-ansible Github repo..."
+#    git clone https://github.com/openshift/openshift-ansible
+#fi
+#
+mkdir -p openshift-ansible
 cd openshift-ansible
-git checkout release-3.9
-git pull
+#git checkout release-3.9
+#git pull
 cp -f ../terraform-azure-openshift/certs/openshift.key openshift.key
 cp -f ../terraform-azure-openshift/templates/openshift-inventory openshift-inventory
 
@@ -41,9 +48,12 @@ sed -i "s/###ADMIN_USER###/$ADMIN_USER/g" openshift-inventory
 sed -i "s/###MASTER_DOMAIN###/$MASTER_DOMAIN/g" openshift-inventory
 sed -i "s/###ROUTER_DOMAIN###/$ROUTER_DOMAIN/g" openshift-inventory
 sed -i "s/###MASTER_FQDN###/$MASTER_FQDN/g" openshift-inventory
+sed -i "s/###RHN_USER###/$RHN_USER/g" openshift-inventory
+sed -i "s/###RHN_PASSWORD###/$RHN_PASSWORD/g" openshift-inventory
 
-ansible-playbook --private-key=openshift.key -i openshift-inventory playbooks/prerequisites.yml
-ansible-playbook --private-key=openshift.key -i openshift-inventory playbooks/deploy_cluster.yml
+
+ansible-playbook --private-key=openshift.key -i openshift-inventory /usr/share/ansible/openshift-ansible/playbooks/prerequisites.yml
+ansible-playbook --private-key=openshift.key -i openshift-inventory /usr/share/ansible/openshift-ansible/playbooks/deploy_cluster.yml
 
 cd ..
 

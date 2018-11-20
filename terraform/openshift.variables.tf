@@ -14,3 +14,5 @@ variable "openshift_os_image_offer" {}
 variable "openshift_os_image_sku" {}
 variable "openshift_os_image_version" {}
 variable "openshift_vm_admin_user" {}
+variable "rhn_user" {}
+variable "rhn_password" {}

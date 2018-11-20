@@ -14,9 +14,3 @@ yum_packages:
   - sos
   - psacct
   - unzip
-  - python-pip
-  - pyOpenSSL
-  - at
-  - deltarpm
-  - tmux
-  - vim

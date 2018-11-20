@@ -1,3 +1,7 @@
+[all:vars]
+rhn_user='###RHN_USER###'
+rhn_password='###RHN_PASSWORD###'
+
 [masters]
 master[1:###MASTER_COUNT###].openshift.local ansible_user=###ADMIN_USER###
 

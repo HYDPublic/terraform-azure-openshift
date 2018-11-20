@@ -1,11 +1,16 @@
 ---
-- name: Install EPEL repo
-  yum:
-    name: "epel-release"
-    state: present
+- name: Register to RHN
+  shell: |
+    #set -e
+    #subscription-manager unregister
+    subscription-manager register --username="{{rhn_user}}" --password="{{rhn_password}}"
+    subscription-manager refresh
+    OCP_POOL_ID=`subscription-manager list --available --matches '*OpenShift Container Platform'|grep 'Pool ID:'|awk '{print $3}'|head -1`
+    subscription-manager attach --pool=${OCP_POOL_ID}
+    subscription-manager repos --disable="*"
+    subscription-manager repos \
+      --enable="rhel-7-server-rpms" \
+      --enable="rhel-7-server-extras-rpms" \
+      --enable="rhel-7-server-ose-3.11-rpms" \
+      --enable="rhel-7-server-ansible-2.6-rpms"
 
-- name: Disable EPEL repo globally
-  replace:
-    path: "{{ epel_repofile_path }}"
-    regexp: "^enabled=1"
-    replace: "enabled=0"

@@ -4,7 +4,6 @@
     name: '*'
     state: latest
     update_cache: yes
-    enablerepo: "epel"
   register: update_system
 
 - name: Reboot if state changed
@@ -20,7 +19,7 @@
     port: 22
     state: started
     delay: 10
-    timeout: 45
+    timeout: 300
   with_items: '{{ play_hosts }}'
   connection: local
   when: update_system.changed

@@ -7,17 +7,20 @@ etcd
 ansible_ssh_user=###ADMIN_USER###
 ansible_become=true
 
-openshift_deployment_type=origin
+#openshift_deployment_type=origin
+openshift_deployment_type=openshift-enterprise
+oreg_auth_user='###RHN_USER###'
+oreg_auth_password='###RHN_PASSWORD###'
 
 openshift_disable_check=memory_availability,disk_availability,docker_image_availability
 openshift_enable_unsupported_configurations=true
 openshift_override_hostname_check=true
 
-openshift_release=v3.9
+#openshift_release=v3.9
 
 os_sdn_network_plugin_name='redhat/openshift-ovs-networkpolicy'
 
-openshift_master_identity_providers=[{'name': 'htpasswd_auth', 'login': 'true', 'challenge': 'true', 'kind': 'HTPasswdPasswordIdentityProvider', 'filename': '/etc/origin/master/htpasswd'}]
+openshift_master_identity_providers=[{'name': 'htpasswd_auth', 'login': 'true', 'challenge': 'true', 'kind': 'HTPasswdPasswordIdentityProvider'}]
 
 openshift_master_htpasswd_users={'admin': '$apr1$xIIiRgPb$wt/TcaVXlmuhi72AOuwJN1', 'dev1': '$apr1$xIIiRgPb$wt/TcaVXlmuhi72AOuwJN1', 'dev2': '$apr1$xIIiRgPb$wt/TcaVXlmuhi72AOuwJN1', 'dev3': '$apr1$xIIiRgPb$wt/TcaVXlmuhi72AOuwJN1', 'dev4': '$apr1$xIIiRgPb$wt/TcaVXlmuhi72AOuwJN1'}
 
@@ -59,6 +62,6 @@ master[1:###MASTER_COUNT###].openshift.local
 master[1:###MASTER_COUNT###].openshift.local
 
 [nodes]
-master[1:###MASTER_COUNT###].openshift.local openshift_node_labels="{'role': 'master', 'logging': 'true'}"
-infra[1:###INFRA_COUNT###].openshift.local openshift_node_labels="{'role': 'infra', 'logging': 'true'}"
-node[1:###NODE_COUNT###].openshift.local openshift_node_labels="{'role': 'app', 'logging': 'true'}"
+master[1:###MASTER_COUNT###].openshift.local openshift_node_labels="{'role': 'master', 'logging': 'true'}" openshift_node_group_name='node-config-master'
+infra[1:###INFRA_COUNT###].openshift.local openshift_node_labels="{'role': 'infra', 'logging': 'true'}" openshift_node_group_name='node-config-infra'
+node[1:###NODE_COUNT###].openshift.local openshift_node_labels="{'role': 'app', 'logging': 'true'}" openshift_node_group_name='node-config-compute'

@@ -1,6 +1,11 @@
 #!/bin/bash
 set -e
 
+RHN_USER=`grep rhn_user bootstrap.tfvars|awk -F '"' '{print $2}'`
+RHN_PASSWORD=`grep rhn_password bootstrap.tfvars|awk -F '"' '{print $2}'`
+sed -i "s/###rhn_user###/$RHN_USER/g" terraform/provision/bastion.sh
+sed -i "s/###rhn_password###/$RHN_PASSWORD/g" terraform/provision/bastion.sh
+
 cd terraform
 
 if [ ! -d ".terraform" ]; then
@@ -41,7 +46,7 @@ scp -q -o StrictHostKeychecking=no -i certs/bastion.key -r ansible/ templates/ $
 scp -q -o StrictHostKeychecking=no -i certs/bastion.key -r certs/openshift.* $ADMIN_USER@$BASTION_IP:/home/$ADMIN_USER/terraform-azure-openshift/certs
 
 echo "Running install script..."
-ssh -t -o StrictHostKeychecking=no -i certs/bastion.key $ADMIN_USER@$BASTION_IP ./install.sh $NODE_COUNT $MASTER_COUNT $INFRA_COUNT $ADMIN_USER $MASTER_DOMAIN $ROUTER_DOMAIN $MASTER_FQDN
+ssh -t -o StrictHostKeychecking=no -i certs/bastion.key $ADMIN_USER@$BASTION_IP ./install.sh $NODE_COUNT $MASTER_COUNT $INFRA_COUNT $ADMIN_USER $MASTER_DOMAIN $ROUTER_DOMAIN $MASTER_FQDN $RHN_USER $RHN_PASSWORD 
 
 echo "-----------------------------------------"
 echo "-----------------------------------------"
