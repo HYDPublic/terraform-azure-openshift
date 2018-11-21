@@ -13,8 +13,8 @@ oreg_auth_user='###RHN_USER###'
 oreg_auth_password='###RHN_PASSWORD###'
 
 openshift_disable_check=memory_availability,disk_availability,docker_image_availability
-openshift_enable_unsupported_configurations=true
-openshift_override_hostname_check=true
+#openshift_enable_unsupported_configurations=true
+#openshift_override_hostname_check=true
 
 #openshift_release=v3.9
 
@@ -22,7 +22,7 @@ os_sdn_network_plugin_name='redhat/openshift-ovs-networkpolicy'
 
 openshift_master_identity_providers=[{'name': 'htpasswd_auth', 'login': 'true', 'challenge': 'true', 'kind': 'HTPasswdPasswordIdentityProvider'}]
 
-openshift_master_htpasswd_users={'admin': '$apr1$xIIiRgPb$wt/TcaVXlmuhi72AOuwJN1', 'dev1': '$apr1$xIIiRgPb$wt/TcaVXlmuhi72AOuwJN1', 'dev2': '$apr1$xIIiRgPb$wt/TcaVXlmuhi72AOuwJN1', 'dev3': '$apr1$xIIiRgPb$wt/TcaVXlmuhi72AOuwJN1', 'dev4': '$apr1$xIIiRgPb$wt/TcaVXlmuhi72AOuwJN1'}
+#openshift_master_htpasswd_users={'admin': '$apr1$xIIiRgPb$wt/TcaVXlmuhi72AOuwJN1', 'dev1': '$apr1$xIIiRgPb$wt/TcaVXlmuhi72AOuwJN1', 'dev2': '$apr1$xIIiRgPb$wt/TcaVXlmuhi72AOuwJN1', 'dev3': '$apr1$xIIiRgPb$wt/TcaVXlmuhi72AOuwJN1', 'dev4': '$apr1$xIIiRgPb$wt/TcaVXlmuhi72AOuwJN1'}
 
 openshift_master_cluster_method=native
 
@@ -30,30 +30,30 @@ openshift_master_cluster_hostname=###MASTER_FQDN###
 openshift_master_cluster_public_hostname=###MASTER_DOMAIN###
 openshift_master_default_subdomain=###ROUTER_DOMAIN###
 
-osm_default_node_selector='role=app'
-openshift_hosted_infra_selector='role=infra'
-openshift_router_selector='role=infra'
-openshift_registry_selector='role=infra'
+#osm_default_node_selector='role=app'
+#openshift_hosted_infra_selector='role=infra'
+#openshift_router_selector='role=infra'
+#openshift_registry_selector='role=infra'
 
 openshift_metrics_install_metrics=true
-openshift_metrics_cassandra_nodeselector={"role":"infra"}
-openshift_metrics_heapster_nodeselector={"role":"infra"}
-openshift_metrics_hawkular_nodeselector={"role":"infra"}
+openshift_metrics_cassandra_nodeselector={"node-role.kubernetes.io/infra":"true"}
+openshift_metrics_heapster_nodeselector={"node-role.kubernetes.io/infra":"true"}
+openshift_metrics_hawkular_nodeselector={"node-role.kubernetes.io/infra":"true"}
 
-openshift_logging_install_logging=true
-openshift_logging_kibana_nodeselector={"role":"infra"}
-openshift_logging_fluentd_nodeselector={"logging":"true"}
-openshift_logging_curator_nodeselector={"role":"infra"}
-openshift_logging_es_nodeselector={"role":"infra"}
+openshift_logging_install_logging=false
+openshift_logging_kibana_nodeselector={"node-role.kubernetes.io/infra":"true"}
+openshift_logging_fluentd_nodeselector={"node-role.kubernetes.io/infra":"true"}
+openshift_logging_curator_nodeselector={"node-role.kubernetes.io/infra":"true"}
+openshift_logging_es_nodeselector={"node-role.kubernetes.io/infra":"true"}
 
 openshift_enable_service_catalog=true
-template_service_broker_install=true
-ansible_service_broker_install=false
-template_service_broker_selector={"role":"infra"}
+#template_service_broker_install=true
+#ansible_service_broker_install=false
+#template_service_broker_selector={"role":"infra"}
 
 openshift_node_kubelet_args={'pods-per-core': ['50'], 'max-pods': ['1000'], 'image-gc-high-threshold': ['85'], 'image-gc-low-threshold': ['80']}
 
-openshift_clock_enabled=true
+#openshift_clock_enabled=true
 
 [masters]
 master[1:###MASTER_COUNT###].openshift.local
@@ -62,6 +62,6 @@ master[1:###MASTER_COUNT###].openshift.local
 master[1:###MASTER_COUNT###].openshift.local
 
 [nodes]
-master[1:###MASTER_COUNT###].openshift.local openshift_node_labels="{'role': 'master', 'logging': 'true'}" openshift_node_group_name='node-config-master'
-infra[1:###INFRA_COUNT###].openshift.local openshift_node_labels="{'role': 'infra', 'logging': 'true'}" openshift_node_group_name='node-config-infra'
-node[1:###NODE_COUNT###].openshift.local openshift_node_labels="{'role': 'app', 'logging': 'true'}" openshift_node_group_name='node-config-compute'
+master[1:###MASTER_COUNT###].openshift.local openshift_node_group_name='node-config-master'
+infra[1:###INFRA_COUNT###].openshift.local openshift_node_group_name='node-config-infra'
+node[1:###NODE_COUNT###].openshift.local openshift_node_group_name='node-config-compute'
