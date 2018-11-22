@@ -26,9 +26,9 @@ resource "azurerm_subnet" "node" {
   address_prefix       = "10.0.3.0/24"
 }
 
-resource "azurerm_dns_zone" "openshift" {
-  name                              = "openshift.local"
-  resource_group_name               = "${azurerm_resource_group.openshift.name}"
-  zone_type                         = "Private"
-  registration_virtual_network_ids  = ["${azurerm_virtual_network.openshift.id}"]
-}
+#resource "azurerm_dns_zone" "openshift" {
+#  name                              = "openshift.local"
+#  resource_group_name               = "${azurerm_resource_group.openshift.name}"
+#  zone_type                         = "Private"
+#  registration_virtual_network_ids  = ["${azurerm_virtual_network.openshift.id}"]
+#}

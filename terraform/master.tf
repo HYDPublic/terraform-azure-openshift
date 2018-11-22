@@ -18,15 +18,16 @@ resource "azurerm_availability_set" "master" {
   location            = "${var.azure_location}"
   resource_group_name = "${azurerm_resource_group.openshift.name}"
   managed             = true
+  platform_fault_domain_count = "${var.azure_fault_domain_count}"
 }
 
-resource "azurerm_dns_a_record" "openshift-master-private-load-balancer" {
-  name                = "master-private-lb"
-  zone_name           = "${azurerm_dns_zone.openshift.name}"
-  resource_group_name = "${azurerm_resource_group.openshift.name}"
-  ttl                 = 300
-  records             = ["10.0.1.250"]
-}
+#resource "azurerm_dns_a_record" "openshift-master-private-load-balancer" {
+#  name                = "master-private-lb"
+#  zone_name           = "${azurerm_dns_zone.openshift.name}"
+#  resource_group_name = "${azurerm_resource_group.openshift.name}"
+#  ttl                 = 300
+#  records             = ["10.0.1.250"]
+#}
 
 resource "azurerm_lb" "master" {
   name                = "openshift-master-load-balancer"

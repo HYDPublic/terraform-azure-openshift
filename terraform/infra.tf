@@ -10,6 +10,7 @@ resource "azurerm_availability_set" "infra" {
   location            = "${var.azure_location}"
   resource_group_name = "${azurerm_resource_group.openshift.name}"
   managed             = true
+  platform_fault_domain_count = "${var.azure_fault_domain_count}"
 }
 
 resource "azurerm_lb" "infra" {

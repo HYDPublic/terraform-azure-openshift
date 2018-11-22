@@ -1,16 +1,30 @@
 ---
 - name: Register to RHN
   shell: |
-    #set -e
-    #subscription-manager unregister
+    set -e
+    [ "$(subscription-manager status|grep Current|awk '{print $3}')" == 'Current' ] && exit 0
     subscription-manager register --username="{{rhn_user}}" --password="{{rhn_password}}"
+  retries: 5
+  delay: 30
+
+- name: Attach pool
+  shell: |
+    set -e
+    [ $(subscription-manager list|grep 'Red Hat OpenShift Container Platform'|wc -l) == 1 ] && exit 0
     subscription-manager refresh
     OCP_POOL_ID=`subscription-manager list --available --matches '*OpenShift Container Platform'|grep 'Pool ID:'|awk '{print $3}'|head -1`
     subscription-manager attach --pool=${OCP_POOL_ID}
+  retries: 3
+  deplay: 30
+
+- name: Setup yum repos
+  shell: |
+    set -e
     subscription-manager repos --disable="*"
     subscription-manager repos \
       --enable="rhel-7-server-rpms" \
       --enable="rhel-7-server-extras-rpms" \
       --enable="rhel-7-server-ose-3.11-rpms" \
       --enable="rhel-7-server-ansible-2.6-rpms"
+  retries: 3
 

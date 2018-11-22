@@ -56,12 +56,12 @@ openshift_node_kubelet_args={'pods-per-core': ['50'], 'max-pods': ['1000'], 'ima
 #openshift_clock_enabled=true
 
 [masters]
-master[1:###MASTER_COUNT###].openshift.local
+master[1:###MASTER_COUNT###]
 
 [etcd]
-master[1:###MASTER_COUNT###].openshift.local
+master[1:###MASTER_COUNT###]
 
 [nodes]
-master[1:###MASTER_COUNT###].openshift.local openshift_node_group_name='node-config-master'
-infra[1:###INFRA_COUNT###].openshift.local openshift_node_group_name='node-config-infra'
-node[1:###NODE_COUNT###].openshift.local openshift_node_group_name='node-config-compute'
+master[1:###MASTER_COUNT###] openshift_node_group_name='node-config-master'
+infra[1:###INFRA_COUNT###] openshift_node_group_name='node-config-infra'
+node[1:###NODE_COUNT###] openshift_node_group_name='node-config-compute'

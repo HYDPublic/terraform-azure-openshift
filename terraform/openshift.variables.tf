@@ -1,4 +1,5 @@
 variable "azure_location" {}
+variable "azure_fault_domain_count" {}
 variable "azure_resource_group_name" {}
 variable "openshift_node_count" {}
 variable "openshift_master_count" {}

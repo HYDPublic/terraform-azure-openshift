@@ -3,10 +3,10 @@ rhn_user='###RHN_USER###'
 rhn_password='###RHN_PASSWORD###'
 
 [masters]
-master[1:###MASTER_COUNT###].openshift.local ansible_user=###ADMIN_USER###
+master[1:###MASTER_COUNT###] ansible_user=###ADMIN_USER###
 
 [infra]
-infra[1:###INFRA_COUNT###].openshift.local ansible_user=###ADMIN_USER###
+infra[1:###INFRA_COUNT###] ansible_user=###ADMIN_USER###
 
 [nodes]
-node[1:###NODE_COUNT###].openshift.local ansible_user=###ADMIN_USER###
+node[1:###NODE_COUNT###] ansible_user=###ADMIN_USER###
