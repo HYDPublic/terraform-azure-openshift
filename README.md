@@ -1,3 +1,13 @@
+# Support for Red Hat OpenShift Container Platform 3.11
+
+To make it work with Red Hat OpenShift Container Platform 3.11, I have done some quick changes.
+
+For customized installation, please modify file template/openshift-inventory.
+
+Thanks,
+Nicholas
+
+
 terraform-azure-openshift
 =========================
 
@@ -37,6 +47,8 @@ openshift_os_image_offer = "CentOS"
 openshift_os_image_sku = "7.5"
 openshift_os_image_version = "latest"
 openshift_vm_admin_user = "cloud-user"
+rhn_user = "RHN account name, don't use email"
+rhn_password = "RHN account password"
 ```
 
 You can tweak the OpenShift inventory file, it's [here](templates/openshift-inventory).
