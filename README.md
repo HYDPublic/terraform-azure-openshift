@@ -4,8 +4,7 @@ To make it work with Red Hat OpenShift Container Platform 3.11, I have done some
 
 For customized installation, please modify file template/openshift-inventory.
 
-Thanks,
-Nicholas
+Now supports Azure and Azure Cloud, please change the settings in bootstrap.tfvar accordingly.
 
 
 terraform-azure-openshift
